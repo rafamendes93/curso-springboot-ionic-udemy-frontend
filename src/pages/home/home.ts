@@ -9,14 +9,26 @@ import {MenuController} from "ionic-angular";
 })
 export class HomePage {
 
+  /**
+   * No construtor da classe é possivel setar o elementos que serão injetados
+   * nesse caso o NavController e o MenuController
+   * @param navCtrl objeto de controle de navegação da página
+   * @param menu menu lateral da página
+   */
   constructor(public navCtrl: NavController, public menu: MenuController) {
 
   }
 
+  /**
+   * Esse método é executado ao entrar na página home desabilitando o menu lateral.
+   */
   ionViewWillEnter(){
     this.menu.swipeEnable(false);
   }
 
+  /**
+   * Esse método é executado ao sair da página home ativando o menu lateral
+   */
   ionViewDidLeave(){
     this.menu.swipeEnable(true);
   }
