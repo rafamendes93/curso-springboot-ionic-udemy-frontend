@@ -5,6 +5,13 @@ import {Observable} from "rxjs";
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
+  /**
+   * Esse método intercepta todas as requisições HTTP.
+   * Faz a captação de erros que podem acontecer em alguma requisição como por exemplo a uma URL inexistente
+   * e transforma em JSON (caso não seja) e mostra no console a mensagem de erro que o webservice emitiu.
+   * @param req requisição HTTP
+   * @param next ação a ser feita quando interceptado requisição HTTP
+   */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     console.log("-- Passou no interceptor --")

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {IonicPage, NavController} from 'ionic-angular';
 import {MenuController} from "ionic-angular";
+import {CredenciaisDTO} from "../../models/credenciais.dto";
+import {AuthService} from "../../services/Auth.service";
 
 @IonicPage()
 @Component({
@@ -9,13 +11,18 @@ import {MenuController} from "ionic-angular";
 })
 export class HomePage {
 
+  creds: CredenciaisDTO = {
+    email: "",
+    senha: ""
+  };
+
   /**
    * No construtor da classe é possivel setar o elementos que serão injetados
    * nesse caso o NavController e o MenuController
    * @param navCtrl objeto de controle de navegação da página
    * @param menu menu lateral da página
    */
-  constructor(public navCtrl: NavController, public menu: MenuController) {
+  constructor(public navCtrl: NavController, public menu: MenuController, public auth : AuthService) {
 
   }
 
@@ -34,7 +41,14 @@ export class HomePage {
   }
 
   login(){
-    this.navCtrl.setRoot('CategoriasPage');
+    this.auth.authenticated(this.creds).subscribe(response =>{
+      console.log(response.headers.get('Authorization'));
+      this.navCtrl.setRoot('CategoriasPage');
+    },
+      error => {});
+
+
+
   }
 
 }
