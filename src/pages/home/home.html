@@ -10,7 +10,9 @@
       <ion-label stacked>Senha</ion-label>
       <ion-input type="password"></ion-input>
     </ion-item>
-    <button ion-button block>Entrar</button>
+    <!-- Esse código abaixo (click) é um event binding do tipo click que dispara o método login() declarado no controlador
+    dessa página, o arquivo home.ts -->
+    <button ion-button block (click)="login()">Entrar</button>
   </form>
   <button ion-button block outline>Registrar</button>
 
