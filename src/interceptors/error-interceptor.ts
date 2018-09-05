@@ -46,7 +46,6 @@ export class ErrorInterceptor implements HttpInterceptor {
             break;
           case 401:
             this.showMensagemErro("Erro de login","Usuário ou Senha Inválidos");
-            console.log(JSON.stringify(errorObj))
             break;
           case 404:
             this.showMensagemErro("Não encontrado","Elemento buscado não está disponível")
