@@ -2,11 +2,14 @@ import {Injectable} from "@angular/core";
 import {HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {StorageService} from "../services/storage_service";
+import {AlertController, ToastController} from "ionic-angular";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-  constructor(public storage: StorageService){}
+  constructor(public storage: StorageService,
+              public alerta : AlertController,
+              public toastCtrl: ToastController){}
 
   /**
    * Esse método intercepta todas as requisições HTTP.
@@ -20,6 +23,15 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(req)
       .catch((error, caught) => {
 
+        /**
+         * Captura o erro 0 de erro na conexão do APP
+         */
+        switch (error.status) {
+          case 0:
+            this.showToastErro("Problema de conexão com o servidor, verifique seu WI-FI ou rede móvel");
+            break;
+        }
+
         let errorObj = error;
         if(errorObj.error){
           errorObj = errorObj.error;
@@ -28,12 +40,16 @@ export class ErrorInterceptor implements HttpInterceptor {
           errorObj = JSON.parse(errorObj);
         }
 
-        console.log("Error detectado pelo interceptor:");
-        console.log(errorObj);
-
         switch (errorObj.status) {
           case 403:
             this.handle403();
+            break;
+          case 401:
+            this.showMensagemErro("Erro de login","Usuário ou Senha Inválidos");
+            console.log(JSON.stringify(errorObj))
+            break;
+          case 404:
+            this.showMensagemErro("Não encontrado","Elemento buscado não está disponível")
             break;
         }
 
@@ -47,6 +63,26 @@ export class ErrorInterceptor implements HttpInterceptor {
   handle403(){
     this.storage.setLocalUser(null);
   }
+
+  private showMensagemErro(title: string,subTitle: string){
+    const alert = this.alerta.create({
+      title:title,
+      subTitle:subTitle,
+      buttons:['ok']
+    })
+    alert.present();
+  }
+
+  private showToastErro(mensagem:string){
+    let toast = this.toastCtrl.create({
+      message: mensagem,
+      duration: 5000,
+      position: 'bottom'
+    })
+    toast.present();
+  }
+
+
 
 }
 

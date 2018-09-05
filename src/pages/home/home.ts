@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController} from 'ionic-angular';
+import {IonicPage, NavController} from 'ionic-angular';
 import {MenuController} from "ionic-angular";
 import {CredenciaisDTO} from "../../models/credenciais.dto";
 import {AuthService} from "../../services/auth.service";
@@ -24,8 +24,7 @@ export class HomePage {
    */
   constructor(public navCtrl: NavController,
               public menu: MenuController,
-              public auth : AuthService,
-              public alerta : AlertController) {
+              public auth : AuthService) {
 
   }
 
@@ -48,20 +47,9 @@ export class HomePage {
       this.auth.sucessfulLogin(response.headers.get('Authorization'));
       this.navCtrl.setRoot('CategoriasPage');
     },
-      error => {
-          this.showMensagemErro();
-      });
+      error => {});
   }
 
-  private showMensagemErro(){
-    const alert = this.alerta.create({
-      title:'Erro de login',
-      subTitle:'Usuário ou senha inválidos',
-      buttons:['ok']
-    })
-    alert.present();
-
-  }
 
 
 }
