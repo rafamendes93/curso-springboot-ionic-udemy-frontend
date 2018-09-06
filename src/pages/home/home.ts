@@ -58,6 +58,10 @@ export class HomePage {
       }, error1 => {});
   }
 
+  signup(){
+    this.navCtrl.push("SignupPage");
+  }
+
 
 
 }
