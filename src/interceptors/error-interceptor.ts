@@ -50,6 +50,9 @@ export class ErrorInterceptor implements HttpInterceptor {
           case 404:
             this.showMensagemErro("Não encontrado","Elemento buscado não está disponível")
             break;
+          case 422:
+            this.handle422(errorObj);
+            break;
         }
 
         return Observable.throw(errorObj);
@@ -82,7 +85,26 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
 
+   handle422(errorObj) {
+    let alert = this.alerta.create({
+      title: 'Erro de validação',
+      message: this.listErrors(errorObj.errors),
+      enableBackdropDismiss: false,
+      buttons:['ok']
+    });
+    alert.present();
+  }
 
+   listErrors(messages) {
+
+    let s : string = "";
+
+    for (var i = 0;i< messages.length; i ++){
+      s = s + '<p><strong>' + messages[i].fieldName + '</strong>: ' + messages[i].message + '</p>';
+    }
+
+    return s;
+  }
 }
 
 export const ErrorInterceptorProvider = {
