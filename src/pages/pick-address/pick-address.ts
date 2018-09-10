@@ -3,10 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {EnderecoDTO} from "../../models/endereco.dto";
 import {StorageService} from "../../services/storage_service";
 import {ClienteService} from "../../services/cliente.service";
-import {ClienteDTO} from "../../models/cliente.dto";
 import {PedidoDTO} from "../../models/pedido.dto";
 import {CartService} from "../../services/domain/cart.service";
-import {r} from "@angular/core/src/render3";
 
 @IonicPage()
 @Component({
@@ -58,7 +56,7 @@ export class PickAddressPage {
 
   nextPage(item: EnderecoDTO){
     this.pedido.enderecoDeEntrega = {id: item.id};
-    console.log(this.pedido);
+    this.navCtrl.push('PaymentPage',{pedido:this.pedido});
   }
 
 }
