@@ -14,6 +14,7 @@ import {StorageService} from "../services/storage_service";
 import {ClienteService} from "../services/cliente.service";
 import {AuthInterceptorProvider} from "../interceptors/auth-interceptor";
 import {ProdutoService} from "../services/produto.service";
+import {CartService} from "../services/domain/cart.service";
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import {ProdutoService} from "../services/produto.service";
     StorageService,
     ClienteService,
     ProdutoService,
+    CartService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
