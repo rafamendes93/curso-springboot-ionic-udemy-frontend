@@ -5,6 +5,7 @@ import {StorageService} from "../../services/storage_service";
 import {API_CONFIG} from "../../config/api.config";
 import {ProdutoService} from "../../services/produto.service";
 import {CartService} from "../../services/domain/cart.service";
+import {ProdutoDTO} from "../../models/produto.dto";
 
 
 @IonicPage()
@@ -40,5 +41,25 @@ export class CartPage {
 
     }
   }
+  removeItem(produto : ProdutoDTO){
+    this.items = this.cartService.removeProduto(produto).carItem;
+  }
+
+  increaseQuantity(produto : ProdutoDTO){
+    this.items = this.cartService.increaseQuantity(produto).carItem;
+  }
+
+  decreaseQuantity(produto : ProdutoDTO){
+    this.items = this.cartService.decreaseQuantity(produto).carItem;
+  }
+
+  total(): number{
+    return this.cartService.total();
+  }
+
+  continuarComprando(){
+    this.navCtrl.setRoot('CategoriasPage');
+  }
+
 
 }
