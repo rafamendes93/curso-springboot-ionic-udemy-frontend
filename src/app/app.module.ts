@@ -13,6 +13,7 @@ import {AuthService} from "../services/auth.service";
 import {StorageService} from "../services/storage_service";
 import {ClienteService} from "../services/cliente.service";
 import {AuthInterceptorProvider} from "../interceptors/auth-interceptor";
+import {ProdutoService} from "../services/produto.service";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {AuthInterceptorProvider} from "../interceptors/auth-interceptor";
     AuthService,
     StorageService,
     ClienteService,
+    ProdutoService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
