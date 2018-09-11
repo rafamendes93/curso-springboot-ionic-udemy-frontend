@@ -25,4 +25,10 @@
       <p>{{item.preco | currency}}</p>
     </button>
   </ion-list>
+
+  <!-- Infinite scroll na lista de produtos -->
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>
