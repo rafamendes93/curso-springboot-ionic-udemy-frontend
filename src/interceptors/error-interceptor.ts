@@ -53,6 +53,9 @@ export class ErrorInterceptor implements HttpInterceptor {
           case 422:
             this.handle422(errorObj);
             break;
+          case 500:
+            this.showMensagemErro("Erro interno do servidor","Erro 500: Erro interno do servidor");
+            break;
         }
 
         return Observable.throw(errorObj);
