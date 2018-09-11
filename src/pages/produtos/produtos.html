@@ -24,6 +24,9 @@
       <h2>{{item.nome}}</h2>
       <p>{{item.preco | currency}}</p>
     </button>
+    <ion-item *ngIf="totalItems() == 0">
+      <h2 item-start>Nenhum item cadastrado</h2>
+    </ion-item>
   </ion-list>
 
   <!-- Infinite scroll na lista de produtos -->

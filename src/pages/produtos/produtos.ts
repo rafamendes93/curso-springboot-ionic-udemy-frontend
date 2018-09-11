@@ -25,6 +25,10 @@ export class ProdutosPage {
     this.loadData();
   }
 
+  totalItems() : number{
+    return this.items.length;
+  }
+
   /**
    * Carrega os dados da lista de produtos de forma paginada
    */
@@ -107,7 +111,6 @@ export class ProdutosPage {
     this.page++;
     this.loadData();
     setTimeout(() => {
-
       infiniteScroll.complete();
     }, 500);
   }
