@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {StorageService} from "../../services/storage_service";
 import {ClienteDTO} from "../../models/cliente.dto";
 import {ClienteService} from "../../services/cliente.service";
@@ -17,13 +17,14 @@ export class ProfilePage {
 
   picture : string;
 
-  cameraOn: boolean;
+  cameraOn: boolean = false;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public storage : StorageService,
               public clienteService : ClienteService,
-              public camera : Camera) {
+              public camera : Camera,
+              public loading : LoadingController) {
   }
 
   ionViewDidLoad() {
@@ -51,19 +52,21 @@ export class ProfilePage {
     }
   }
 
-  getImageIfExists(){
+  getImageIfExists() {
     this.clienteService.getImageFromBucket(this.cliente.id)
       .subscribe(response => {
-        this.cliente.imageUrl = `${API_CONFIG.bucketUrl}/cp${this.cliente.id}.jpg`;
-      },
-        error => {});
+          this.cliente.imageUrl = `${API_CONFIG.bucketUrl}/cp${this.cliente.id}.jpg`;
+        },
+        error => {
+        });
   }
+
   getCameraPicture(){
     this.cameraOn = true;
 
     const options: CameraOptions = {
       quality: 100,
-      destinationType: this.camera.DestinationType.FILE_URI,
+      destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.PNG,
       mediaType: this.camera.MediaType.PICTURE
     }
@@ -71,20 +74,51 @@ export class ProfilePage {
     this.camera.getPicture(options).then((imageData) => {
       this.picture = 'data:image/png;base64,' + imageData;
       this.cameraOn = false;
-    }, (err) => {});
+    }, (err) => {
+      this.cameraOn = false;
+    });
   }
 
   sendPicture(){
+    let loader = this.presentLoading();
     this.clienteService.uploadPicture(this.picture)
       .subscribe(response => {
         this.picture = null;
         this.loadData();
+        loader.dismissAll();
       },
-        error1 => {});
+        error1 => {loader.dismissAll();});
   }
 
   descartarImagem(){
     this.picture = null;
+  }
+
+  presentLoading(){
+    let loader = this.loading.create({
+      content: "Aguarde"
+    });
+    loader.present();
+    return loader;
+  }
+
+  getGalleryPicture(){
+    this.cameraOn = true;
+
+    const options: CameraOptions = {
+      quality: 100,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.PNG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      this.picture = 'data:image/png;base64,' + imageData;
+      this.cameraOn = false;
+    }, (err) => {
+      this.cameraOn = false;
+    });
   }
 
 }

@@ -30,8 +30,7 @@
       <h1 item-end>{{total() | currency:'BRL':true}}</h1>
     </ion-item>
     <ion-item *ngIf="total() <= 0">
-      <h1>Total</h1>
-      <h1 item-end>Seu carrinho está vázio</h1>
+      <h1>Seu carrinho está vázio</h1>
     </ion-item>
     <button ion-button block (click)="continuarComprando()">Continuar Comprando</button>
     <button *ngIf="total() > 0" ion-button block color="secondary" (click)="checkout()">Finalizar Compra</button>
